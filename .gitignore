@@ -1,0 +1,6 @@
+/node_modules/
+/build/
+dev.js
+*.log
+frontend/.env.development
+frontend/.env.production
