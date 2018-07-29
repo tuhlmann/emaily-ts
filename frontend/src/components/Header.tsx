@@ -1,6 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
+import Payments from "./Payments"
 
 interface StateProps {
   auth: any
@@ -14,7 +15,7 @@ class Header extends React.Component<Props, {}> {
       <nav>
         <div className="nav-wrapper">
           <Link
-            to={ this.props.auth ? "/surveys" : "/" }
+            to={this.props.auth ? "/surveys" : "/"}
             className="left brand-logo"
           >Emaily</Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -35,10 +36,13 @@ class Header extends React.Component<Props, {}> {
         return <li><a href="/auth/google">Login with Google</a></li>
 
       default:
-        return <li><a href="api/logout">Logout</a></li>
+        return [
+          <li key={"payments"}><Payments /></li>,
+          <li key={"credits"} style={{ margin: "0 10px" }}>Credits: {this.props.auth.credits}</li>,
+          <li key={"logout"}><a href="api/logout">Logout</a></li>,
+        ]
     }
   }
-
 
 }
 

@@ -1,8 +1,10 @@
 // Import everything from express and assign it to the express variable
 import express from "express"
+import * as path from "path" // normalize the paths : http://stackoverflow.com/questions/9756567/do-you-need-to-use-path-join-in-node-js
 import mongoose from "mongoose"
 import cookieSession from "cookie-session"
 import passport from "passport"
+import bodyParser from "body-parser"
 import logger from "./utils/logger"
 
 import keys from "../config/keys"
@@ -15,6 +17,7 @@ import "./models/User"
 import "./services/passport"
 
 import authRoutes from "./routes/authRoutes"
+import billingRoutes from "./routes/billingRoutes"
 
 // Import WelcomeController from controllers entry point
 import { WelcomeController } from "./controllers"
@@ -27,6 +30,9 @@ mongoose.connect(
 // Create a new express application instance
 const app: express.Application = express()
 
+const rootPath: string = process.env.PWD || process.cwd()
+
+app.use(bodyParser.json())
 app.use(
   cookieSession({
     name: "session",
@@ -39,6 +45,15 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 authRoutes(app)
+billingRoutes(app)
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(rootPath, "frontend/build"), { maxAge: "7d" }))
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(rootPath, "frontend", "build", "index.html"))
+  })
+}
 
 // Mount the WelcomeController at the /welcome route
 app.use("/welcome", WelcomeController)

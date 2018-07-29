@@ -1,10 +1,9 @@
 {
-  "tslint.alwaysShowStatus": true,
-  "tslint.autoFixOnSave": true,
   "todohighlight.keywords": [
     "FIXME",
     "TODO"
   ],
-  "prettier.printWidth": 120,
-  "prettier.semi": false
+  "cSpell.words": [
+    "emaily"
+  ]
 }
