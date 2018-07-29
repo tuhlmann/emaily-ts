@@ -51,6 +51,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(rootPath, "frontend/build"), { maxAge: "7d" }))
 
   app.get("*", (req, res) => {
+    logger.info("Serving fallback route for request", req)
     res.sendFile(path.resolve(rootPath, "frontend", "build", "index.html"))
   })
 }
