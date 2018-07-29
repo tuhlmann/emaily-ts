@@ -114,7 +114,15 @@
     ],
     "interface-name": false,
     "ban-comma-operator": true,
-    "no-implicit-dependencies": true
+    "no-implicit-dependencies": true,
+    "whitespace": [true, 
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-typecast",
+      "check-separator",
+      "check-preblock"
+    ]
   },
   "extends": [
     "tslint:recommended",

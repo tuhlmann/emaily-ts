@@ -1,12 +1,20 @@
 import express from "express"
 import passport from "passport"
+import logger from "../utils/logger"
 
 export default (app: express.Application) => {
   app.get(
     "/auth/google",
-    passport.authenticate("google", {
-      scope: ["profile", "email"],
-    }),
+    (req, res) => {
+      logger.info("about to authenticate")
+      passport.authenticate("google", {
+        scope: ["profile", "email"],
+        failureFlash: true,
+        successFlash: "Welcome!",
+      }, (error, user, info) => {
+        logger.error("authenticate returned", error, user, info)
+      })(req, res)
+    },
   )
 
   app.get("/auth/google/callback", passport.authenticate("google"), (req, res) => {
