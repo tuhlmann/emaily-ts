@@ -9,12 +9,14 @@ const myFormat = printf(info => {
 const logger = createLogger({
   // format: combine(label({ label: "Emaily" }), timestamp(), myFormat),
   transports: [
-    new transports.Console({ level: process.env.NODE_ENV === "production" ? "error" : "debug" }),
+    new transports.Console({ level: process.env.NODE_ENV === "production" ? "debug" : "debug" }),
     new transports.File({ filename: "debug.log", level: "debug" }),
   ],
 })
 
 if (process.env.NODE_ENV !== "production") {
+  logger.debug("Logging initialized at debug level")
+} else {
   logger.debug("Logging initialized at debug level")
 }
 
