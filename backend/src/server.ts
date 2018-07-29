@@ -10,8 +10,6 @@ import logger from "./utils/logger"
 
 import keys from "../config/keys"
 
-logger.info("Keys are: ", keys)
-
 // order is important. First require model classes, then the code that uses them
 import "./models/User"
 
@@ -45,8 +43,6 @@ app.use(
   }),
 )
 
-app.use(morgan("dev"))  // log every request to the console
-
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -57,9 +53,10 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(rootPath, "frontend", "build"), { maxAge: "7d" }))
 
   app.get("*", (req, res) => {
-    logger.info("Serving fallback route for request ", req.baseUrl)
     res.sendFile(path.resolve(rootPath, "frontend", "build", "index.html"))
   })
+} else {
+  app.use(morgan("dev"))  // log every request to the console
 }
 
 // Mount the WelcomeController at the /welcome route

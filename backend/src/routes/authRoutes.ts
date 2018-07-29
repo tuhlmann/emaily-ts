@@ -1,18 +1,13 @@
 import express from "express"
 import passport from "passport"
-import logger from "../utils/logger"
+// import logger from "../utils/logger"
 
 export default (app: express.Application) => {
   app.get(
     "/auth/google",
-    (req, res) => {
-      logger.info("about to authenticate")
-      passport.authenticate("google", {
-        scope: ["profile", "email"],
-        failureFlash: true,
-        successFlash: "Welcome!",
-      })(req, res)
-    },
+    passport.authenticate("google", {
+      scope: ["profile", "email"],
+    }),
   )
 
   app.get("/auth/google/callback", passport.authenticate("google"), (req, res) => {
@@ -20,7 +15,6 @@ export default (app: express.Application) => {
   })
 
   app.get("/api/logout", (req, res) => {
-    logger.info("logging our user: ", req.user)
     req.logout()
     res.redirect("/")
   })
