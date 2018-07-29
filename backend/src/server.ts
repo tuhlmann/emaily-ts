@@ -2,6 +2,7 @@
 import express from "express"
 import * as path from "path" // normalize the paths : http://stackoverflow.com/questions/9756567/do-you-need-to-use-path-join-in-node-js
 import mongoose from "mongoose"
+import morgan from "morgan"
 import cookieSession from "cookie-session"
 import passport from "passport"
 import bodyParser from "body-parser"
@@ -32,6 +33,9 @@ const app: express.Application = express()
 
 const rootPath: string = process.env.PWD || process.cwd()
 
+const p = path.join(rootPath, "frontend/build")
+logger.info(`PATH IS ${rootPath}, ${p}`)
+
 app.use(bodyParser.json())
 app.use(
   cookieSession({
@@ -41,6 +45,8 @@ app.use(
   }),
 )
 
+app.use(morgan("dev"))  // log every request to the console
+
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -48,16 +54,16 @@ authRoutes(app)
 billingRoutes(app)
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(rootPath, "frontend/build"), { maxAge: "7d" }))
+  app.use(express.static(path.resolve(rootPath, "frontend", "build"), { maxAge: "7d" }))
 
   app.get("*", (req, res) => {
-    logger.info("Serving fallback route for request", req)
+    logger.info("Serving fallback route for request ", req.baseUrl)
     res.sendFile(path.resolve(rootPath, "frontend", "build", "index.html"))
   })
 }
 
 // Mount the WelcomeController at the /welcome route
-app.use("/welcome", WelcomeController)
+// app.use("/welcome", WelcomeController)
 
 // The port the express app will listen on
 const port: string | number = process.env.PORT || 5000

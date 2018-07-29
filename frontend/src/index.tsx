@@ -12,7 +12,7 @@ import { AppContainer } from "react-hot-loader"
 import App from "./components/App"
 import reducers from "./reducers"
 
-import registerServiceWorker from "./registerServiceWorker"
+// import registerServiceWorker from "./registerServiceWorker"
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk))
 
@@ -38,7 +38,7 @@ ReactDOM.render(
   rootEl,
 )
 
-registerServiceWorker()
+// registerServiceWorker()
 
 // render(App)
 

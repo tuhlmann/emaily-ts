@@ -11,8 +11,6 @@ export default (app: express.Application) => {
         scope: ["profile", "email"],
         failureFlash: true,
         successFlash: "Welcome!",
-      }, (error, user, info) => {
-        logger.error("authenticate returned", error, user, info)
       })(req, res)
     },
   )
@@ -22,6 +20,7 @@ export default (app: express.Application) => {
   })
 
   app.get("/api/logout", (req, res) => {
+    logger.info("logging our user: ", req.user)
     req.logout()
     res.redirect("/")
   })
