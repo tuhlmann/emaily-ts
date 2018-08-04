@@ -2,6 +2,7 @@ import * as React from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import Payments from "./Payments"
+import { IApplicationState } from "../types"
 
 interface StateProps {
   auth: any
@@ -17,7 +18,8 @@ class Header extends React.Component<Props, {}> {
           <Link
             to={this.props.auth ? "/surveys" : "/"}
             className="left brand-logo"
-          >Emaily</Link>
+          >Emaily
+          </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             {this.renderContent()}
           </ul>
@@ -46,8 +48,8 @@ class Header extends React.Component<Props, {}> {
 
 }
 
-function mapStateToProps({ auth }: StateProps) {
+function mapStateToProps({ auth }: IApplicationState): StateProps {
   return { auth }
 }
 
-export default connect<StateProps, {}, {}>(mapStateToProps)(Header)
+export default connect<StateProps, {}, {}, IApplicationState>(mapStateToProps)(Header)

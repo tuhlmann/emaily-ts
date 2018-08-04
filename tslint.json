@@ -122,7 +122,8 @@
       "check-typecast",
       "check-separator",
       "check-preblock"
-    ]
+    ],
+    "max-classes-per-file": [true, 5]
   },
   "extends": [
     "tslint:recommended",

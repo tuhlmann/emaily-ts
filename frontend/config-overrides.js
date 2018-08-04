@@ -1,3 +1,4 @@
+/* tslint:disable */
 // const rewireReactHotLoader = require("react-app-rewire-hot-loader")
 
 // module.exports = function override(config, env) {
@@ -11,3 +12,5 @@ module.exports = function override(config, env) {
   config = rewireTypescript(config, env)
   return config
 }
+
+/* tslint:enable */

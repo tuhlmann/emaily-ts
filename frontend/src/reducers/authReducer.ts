@@ -1,8 +1,11 @@
-import { StoreState } from "../types"
 import { AuthAction } from "../actions"
 import * as constants from "../constants"
 
-export default function(state: StoreState = {}, action: AuthAction) {
+export interface IApplicationAuthState {
+  auth?: any
+}
+
+export default function(state: IApplicationAuthState = {}, action: AuthAction) {
   switch (action.type) {
     case constants.FETCH_USER:
       return action.payload || false

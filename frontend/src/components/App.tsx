@@ -1,6 +1,8 @@
 import * as React from "react"
 import { BrowserRouter, Route } from "react-router-dom"
 import { connect } from "react-redux"
+import Logger from "../utils/Logger"
+
 import * as actions from "../actions"
 
 import "./App.css"
@@ -11,14 +13,8 @@ const { Component } = React
 
 import Header from "./Header"
 import Landing from "./Landing"
-
-const Dashboard = () => {
-  return <h2>Dashboard</h2>
-}
-
-const SurveyNew = () => {
-  return <h2>SurveyNew</h2>
-}
+import Dashboard from "./Dashboard"
+import SurveyNew from "./surveys/SurveyNew"
 
 // The props used when calling this component
 export interface OwnProps {}
@@ -33,18 +29,18 @@ type Props = StateProps & DispatchProps & OwnProps
 
 interface State {}
 
-
 class App extends Component<Props, State> {
-
   public componentDidMount() {
     this.props.fetchUser()
   }
 
   public render() {
+    Logger.info("rendering: ", this.props)
+
     return (
       <div className="container">
         <BrowserRouter>
-          <div>
+          <div className="container">
             <Header />
             <Route exact path="/" component={Landing} />
             <Route exact path="/surveys" component={Dashboard} />
@@ -56,4 +52,7 @@ class App extends Component<Props, State> {
   }
 }
 
-export default connect<StateProps, DispatchProps, OwnProps>(null, actions)(App)
+export default connect<StateProps, DispatchProps, OwnProps>(
+  null,
+  actions,
+)(App)

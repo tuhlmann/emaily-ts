@@ -12,11 +12,13 @@ import keys from "../config/keys"
 
 // order is important. First require model classes, then the code that uses them
 import "./models/User"
+import "./models/Survey"
 
 import "./services/passport"
 
 import authRoutes from "./routes/authRoutes"
 import billingRoutes from "./routes/billingRoutes"
+import surveyRoutes from "./routes/surveyRoutes"
 
 // Import WelcomeController from controllers entry point
 import { WelcomeController } from "./controllers"
@@ -48,6 +50,7 @@ app.use(passport.session())
 
 authRoutes(app)
 billingRoutes(app)
+surveyRoutes(app)
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(rootPath, "frontend", "build"), { maxAge: "7d" }))
@@ -56,7 +59,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(rootPath, "frontend", "build", "index.html"))
   })
 } else {
-  app.use(morgan("dev"))  // log every request to the console
+  app.use(morgan("dev")) // log every request to the console
 }
 
 // Mount the WelcomeController at the /welcome route

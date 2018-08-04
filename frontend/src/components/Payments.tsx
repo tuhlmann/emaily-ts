@@ -29,4 +29,3 @@ export default connect<{}, DispatchProps, {}>(
   null,
   actions,
 )(Payments)
-

@@ -1,4 +1,7 @@
-export interface StoreState {
-  // languageName: string
-  // enthusiasmLevel: number
+/**
+ * The complete state definition
+ */
+export interface IApplicationState {
+  auth: any
+  form: any
 }
