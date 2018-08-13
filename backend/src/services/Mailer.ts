@@ -3,15 +3,14 @@ import { ISurvey, IRecipient } from "../models/Survey"
 import keys from "../../config/keys"
 const helper = SendGrid.mail
 
-export class SendGridMail extends SendGrid.mail.Mail { }
-export class SendGridEmail extends SendGrid.mail.Email { }
-export class SendGridContent extends SendGrid.mail.Content { }
+export class SendGridMail extends SendGrid.mail.Mail {}
+export class SendGridEmail extends SendGrid.mail.Email {}
+export class SendGridContent extends SendGrid.mail.Content {}
 
 // NOTE: Should you need to pass a function, you need to include the param name in the signature, like so:
 // constructor(survey: ISurvey, templateFn: (survey: ISurvey) => string)
 
 export class Mailer extends helper.Mail {
-
   // tslint:disable-next-line variable-name
   private from_email: SendGridEmail
   private subject: string
@@ -27,7 +26,7 @@ export class Mailer extends helper.Mail {
     this.subject = survey.subject
     this.body = new SendGridContent("text/html", content)
     this.recipients = this.formatAddresses(survey.recipients)
-    console.log("hi", content)
+    console.log("Mail content", content)
 
     this.addContent(this.body)
     this.addClickTracking()
@@ -65,5 +64,4 @@ export class Mailer extends helper.Mail {
     })
     this.addPersonalization(personalize)
   }
-
 }

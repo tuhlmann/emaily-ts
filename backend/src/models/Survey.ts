@@ -1,28 +1,10 @@
 import mongoose from "mongoose"
 import RecipientSchema from "./Recipient"
+import { ISurvey } from "../../../shared/src/models/Survey"
 
 const { Schema } = mongoose
 
-export interface IRecipient {
-  email: string
-  responded: boolean
-}
-
-// See https://github.com/Appsilon/styleguide/wiki/mongoose-typescript-models
-// for combining mongoose and TS client / server models
-export interface ISurvey {
-  _user: mongoose.Types.ObjectId
-  title: string
-  subject: string
-  body: string
-  recipients: IRecipient[]
-  yes: number
-  no: number
-  dateSent: Date
-  lastResponded: Date
-}
-
-export interface ISurveyModel extends ISurvey, mongoose.Document { }
+export interface ISurveyModel extends ISurvey, mongoose.Document {}
 
 const surveySchema = new Schema({
   _user: { type: Schema.Types.ObjectId, ref: "User" },

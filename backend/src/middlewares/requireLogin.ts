@@ -5,5 +5,5 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).send({ error: "You must login!" })
   }
 
-  next()
+  return next()
 }

@@ -1,8 +1,8 @@
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-export default (emails: string) => {
-  if (emails) {
-    const invalidEmails = emails
+export default (recipients: string) => {
+  if (recipients) {
+    const invalidEmails = recipients
       .split(",")
       .map(s => s.trim())
       .filter(email => email.length && !emailRegex.test(email))

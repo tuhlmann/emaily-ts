@@ -1,45 +1,22 @@
 import * as React from "react"
-import { reduxForm, Field, InjectedFormProps, GenericField, FormErrors } from "redux-form"
+import { reduxForm, Field, InjectedFormProps, GenericField, FormErrors, GenericFieldHTMLAttributes } from "redux-form"
 import { Link } from "react-router-dom"
 import SurveyField from "./SurveyField"
 import validateEmails from "../../utils/validateEmails"
-
-export interface SurveyFormData {
-  title: string
-  subject: string
-  body: string
-  emails: string
-}
+import { default as formFields, SurveyFormData } from "./formFields"
 
 interface CustomFieldProps {
   label: string
-  type: string
 }
 
 interface SurveyFormProps {
   onSurveySubmit: () => void
 }
 
-const CustomField = Field as new () => GenericField<CustomFieldProps>
-
-const FIELDS: Array<{ label: string; name: string }> = [
-  {
-    label: "Survey Title",
-    name: "title",
-  },
-  {
-    label: "Subject Line",
-    name: "subject",
-  },
-  {
-    label: "Email Body",
-    name: "body",
-  },
-  {
-    label: "Recipient List",
-    name: "emails",
-  },
-]
+/**
+ * Create a new field so we can pass custom attributes like label
+ */
+const CustomField = Field as new () => GenericField<CustomFieldProps & GenericFieldHTMLAttributes>
 
 class SurveyForm extends React.Component<InjectedFormProps<SurveyFormData, SurveyFormProps> & SurveyFormProps> {
   public render() {
@@ -59,7 +36,7 @@ class SurveyForm extends React.Component<InjectedFormProps<SurveyFormData, Surve
   }
 
   private renderFields() {
-    return FIELDS.map(({ label, name }) => {
+    return formFields.map(({ label, name }) => {
       return <CustomField key={name} component={SurveyField} type="text" label={label} name={name} />
     })
   }
@@ -68,9 +45,9 @@ class SurveyForm extends React.Component<InjectedFormProps<SurveyFormData, Surve
 const validate = (values: SurveyFormData, props: SurveyFormProps): FormErrors<SurveyFormData> => {
   const errors: FormErrors<SurveyFormData> = {}
 
-  errors.emails = validateEmails(values.emails)
+  errors.recipients = validateEmails(values.recipients)
 
-  FIELDS.forEach(({ name, label }) => {
+  formFields.forEach(({ name, label }) => {
     if (!values[name]) {
       errors[name] = `Please provide ${label}`
     }
@@ -81,5 +58,6 @@ const validate = (values: SurveyFormData, props: SurveyFormProps): FormErrors<Su
 
 export default reduxForm({
   validate,
-  form: "survey-form",
+  form: "surveyForm",
+  destroyOnUnmount: false,
 })(SurveyForm)
